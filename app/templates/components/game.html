@@ -1,0 +1,33 @@
+<div class="space-y-4">
+    {% if message %}
+    <div class="text-green-600">{{ message }}</div>
+    {% endif %}
+    <div id="stats" class="border p-2">
+        <p>HP: {{ player.hp }}</p>
+        <p>ATK: {{ player.atk }}</p>
+        <p>Level: {{ player.level }}</p>
+        <p>EXP: {{ player.exp }}</p>
+        <p>Gold: {{ player.gold }}</p>
+    </div>
+    <div class="flex space-x-2">
+        <form hx-post="/attack" hx-target="#game" hx-swap="outerHTML">
+            <button class="bg-blue-500 text-white px-2 py-1">Attack</button>
+        </form>
+        <form hx-post="/upgrade" hx-target="#game" hx-swap="outerHTML">
+            <button class="bg-purple-500 text-white px-2 py-1">Upgrade Weapon (cost {{ player.weapon_level*50 }})</button>
+        </form>
+    </div>
+    <div>
+        <h2 class="font-bold">Shop</h2>
+        <ul>
+        {% for item in items %}
+            <li>
+                {{ item.name }} - {{ item.cost }} gold
+                <form hx-post="/buy/{{ item.id }}" hx-target="#game" hx-swap="outerHTML" class="inline">
+                    <button class="bg-green-500 text-white px-2 py-1">Buy</button>
+                </form>
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+</div>
